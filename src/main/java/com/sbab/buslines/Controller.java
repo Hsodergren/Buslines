@@ -18,13 +18,12 @@ public class Controller {
     Service service;
 
     @GetMapping("/lines")
-    public Map<Integer, List<String>> lines() {
-        return service.getLines();
-    }
-
-    @GetMapping("/lines/{ids}")
-    public Map<Integer, List<String>> linesIds(@PathVariable("ids") List<Integer> ids) {
-        return service.getLines(ids);
+    public Map<Integer, List<String>> linesIds(@RequestParam Optional<List<Integer>> ids) {
+        if (ids.isPresent()) {
+            return service.getLines(ids.get());
+        } else {
+            return service.getLines();
+        }
     }
 
     @GetMapping("/moststops")
